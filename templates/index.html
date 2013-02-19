@@ -58,7 +58,20 @@ mixpanel.init("{{mixpanelToken}}");</script><!-- end Mixpanel -->
 					{% set days = days[currentDay:currentDay+2] %}
 				{% endif %}
 				{% for day in days if day in restaurant.Menu %}
-					<li>{{ day }}</li>
+				<li>
+					<h4>{{ day }}</h4>
+					{% set meals = ['Breakfast', 'Lunch', 'Dinner'] %}
+					{% for meal in meals if meal in restaurant.Menu[day] %}
+					<h5>{{ meal }}</h5>
+						{% if restaurant.Menu[day][meal].Items.result is string %}
+						<p>{{ restaurant.Menu[day][meal].Items.result }}</p>
+						{% else %}
+						{% for item in restaurant.Menu[day][meal].Items.result %}
+						<p>{{ item }}</p>
+						{% endfor %}
+						{% endif %}
+					{% endfor %}
+				</li>
 				{% endfor %}
 			{% endfor %}
 		</ul><!-- list -->
